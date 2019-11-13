@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2019_11_13_022621) do
 
   create_table "songs", force: :cascade do |t|
     t.text "source_url"
-    t.text "output_url"
+    t.binary "audio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
