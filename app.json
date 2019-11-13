@@ -1,8 +1,0 @@
-{
-  "environments": {
-    "buildpacks": [
-      {"url": "heroku/ruby"},
-      {"url": "heroku/python"}
-    ]
-  }
-}
