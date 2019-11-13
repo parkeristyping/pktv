@@ -1,0 +1,3 @@
+ffmpeg
+spleeter
+youtube-dl
