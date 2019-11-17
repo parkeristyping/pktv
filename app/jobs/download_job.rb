@@ -2,7 +2,7 @@ class DownloadJob < ApplicationJob
   def perform(song)
     # Download the song from youtube
     id = SecureRandom.uuid
-    `youtube-dl -x -f worstaudio --audio-format mp3 -o '#{Rails.root}/tmp/#{id}.mp3' #{song.source_url}`
+    `youtube-dl -x --audio-format mp3 -o '#{Rails.root}/tmp/#{id}.mp3' #{song.source_url}`
 
     # Process the song with Spleeter
     `spleeter separate -i #{Rails.root}/tmp/#{id}.mp3 -p spleeter:2stems -o #{Rails.root}/tmp`
