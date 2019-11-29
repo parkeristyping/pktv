@@ -1,0 +1,5 @@
+[webservers]
+ktv2
+
+[webservers:vars]
+ansible_python_interpreter=/usr/bin/python3

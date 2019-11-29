@@ -1,0 +1,148 @@
+---
+- name: Configure server
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Update apt-get
+      become: yes
+      command: apt-get update
+    - name: Create system dir
+      become: yes
+      command: mkdir /usr/lib/systemd/system
+      ignore_errors: yes
+    - name: Setup systemd service
+      become: yes
+      copy:
+        src: files/app.service
+        dest: /usr/lib/systemd/system/app.service
+    - name: Install nginx
+      become: yes
+      apt:
+        name: nginx
+        state: present
+    - name: Install ffmpeg
+      become: yes
+      apt:
+        name: ffmpeg
+        state: present
+    - name: Add nginx config
+      become: yes
+      copy:
+        src: files/web.conf
+        dest: /etc/nginx/sites-available/default
+    - name: Install Ruby
+      become: yes
+      apt:
+        name:
+          - autoconf
+          - bison
+          - build-essential
+          - libssl-dev
+          - libyaml-dev
+          - libreadline6-dev
+          - zlib1g-dev
+          - libncurses5-dev
+          - libffi-dev
+          - libgdbm5
+          - libgdbm-dev
+        state: present
+    - name: Install rbenv
+      become_user: ubuntu
+      git:
+        repo: 'https://github.com/rbenv/rbenv.git'
+        dest: /home/ubuntu/.rbenv
+    - name: Set bashrc
+      become: yes
+      copy:
+        src: files/.bashrc
+        dest: /home/ubuntu/.bashrc
+    - name: Install Ruby build
+      become_user: ubuntu
+      git:
+        repo: 'https://github.com/rbenv/ruby-build.git'
+        dest: /home/ubuntu/.rbenv/plugins/ruby-build
+    - name: Install Ruby
+      become_user: ubuntu
+      command: rbenv install 2.6.5
+      ignore_errors: yes # errors if already installed
+    - name: Set ruby version
+      become_user: ubuntu
+      command: rbenv global 2.6.5
+    - name: Install bundler
+      become_user: ubuntu
+      command: gem install bundler
+    - name: Install PostgreSQL
+      become: yes
+      apt:
+        name:
+          - postgresql
+          - postgresql-contrib
+          - libpq-dev
+        state: present
+    - name: Add ubuntu pg user
+      become: yes
+      command: sudo -u postgres createuser ubuntu
+      ignore_errors: yes
+    - name: Install Redis
+      become: yes
+      apt:
+        name: redis-server
+        state: present
+    - name: Clone app repo
+      become_user: ubuntu
+      git:
+        repo: 'https://github.com/parkeristyping/pktv'
+        dest: /home/ubuntu/pktv
+      ignore_errors: true
+    - name: Install app dependencies
+      become_user: ubuntu
+      shell:
+        chdir: /home/ubuntu/pktv
+        cmd: bundle install
+    - name: Install pip
+      become: yes
+      apt:
+        name: python3-pip
+        state: present
+    - name: Set python3 as default
+      become: yes
+      file:
+        src: "/usr/bin/python3"
+        dest: "/usr/bin/python"
+        state: link
+    - name: Set pip3 as default
+      become: yes
+      file:
+        src: "/usr/bin/pip3"
+        dest: "/usr/bin/pip"
+        state: link
+    - name: Install python requirements
+      become_user: ubuntu
+      shell:
+        chdir: /home/ubuntu/pktv
+        cmd: pip install -r requirements.txt
+    # - name: Update Node
+    #   become: yes
+    #   command: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    - name: Install Node
+      become: yes
+      apt:
+        name:
+          - nodejs
+          - npm
+        state: present
+    - name: Install yarn
+      become: yes
+      shell:
+        chdir: /home/ubuntu/pktv
+        cmd: npm install -g yarn
+    - name: Install node requirements
+      become_user: ubuntu
+      shell:
+        chdir: /home/ubuntu/pktv
+        cmd: yarn install
+    # - name: Rails app setup
+    #   become_user: ubuntu
+    #   shell:
+    #     chdir: /home/ubuntu/pktv
+    #     cmd: bundle exec rails db:setup
