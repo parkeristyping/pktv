@@ -1,0 +1,5 @@
+<%= @search %>
+<%= form_with url: searches_path do |f| %>
+  <%= f.text_field :q %>
+  <%= f.submit %>
+<% end %>

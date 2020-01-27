@@ -81,8 +81,9 @@
         state: present
     - name: Add ubuntu pg user
       become: yes
-      command: sudo -u postgres createuser ubuntu
+      command: sudo -u postgres createuser ubuntu && sudo -u postgres createdb ubuntu
       ignore_errors: yes
+    # you also need to do sudo -u postgres psql and then `alter role ubuntu createdb;`
     - name: Install Redis
       become: yes
       apt:
@@ -121,9 +122,6 @@
       shell:
         chdir: /home/ubuntu/pktv
         cmd: pip install -r requirements.txt
-    # - name: Update Node
-    #   become: yes
-    #   command: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
     - name: Install Node
       become: yes
       apt:
@@ -136,6 +134,14 @@
       shell:
         chdir: /home/ubuntu/pktv
         cmd: npm install -g yarn
+    # - name: Update Node
+    #   become: yes
+    #   command: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+    # - name: Install Ruby
+    #   become: yes
+    #   apt:
+    #     name:
+    #       - nodejs
     - name: Install node requirements
       become_user: ubuntu
       shell:
