@@ -137,7 +137,7 @@
     # - name: Update Node
     #   become: yes
     #   command: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-    # - name: Install Ruby
+    # - name: Install Node
     #   become: yes
     #   apt:
     #     name:

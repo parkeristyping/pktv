@@ -1,1 +1,12 @@
-loading... (this takes a minute, refresh the page in a bit)
+<% if @song.error.present? %>
+  <p>There was an error</p>
+  <p><%= @song.error %></p>
+<% else %>
+  <p>loading... (this takes a minute, refresh the page in a bit)</p>
+  <p>Events:</p>
+  <ul>
+    <% @song.event_log.each do |event| %>
+      <%= event['time'] %> - <%= event['event'] %>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,5 +1,21 @@
-<%= @search %>
 <%= form_with url: searches_path do |f| %>
   <%= f.text_field :q %>
-  <%= f.submit %>
+  <%= f.submit 'Search' %>
+<% end %>
+<% if @search.present? %>
+  <h2>Results for: <%= @search %></h2>
+  <% if @songs.present? %>
+    <% @songs.each do |song| %>
+      <p>
+        <%= song.title.html_safe %>
+        <%= form_for song do |f| %>
+          <%= f.hidden_field :title %>
+          <%= f.hidden_field :source_url %>
+          <%= f.submit 'Select' %>
+        <% end %>
+      </p>
+    <% end %>
+  <% else %>
+    <p>No results :-/</p>
+  <% end %>
 <% end %>

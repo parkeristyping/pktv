@@ -1,10 +1,9 @@
-class SongsController < ApplicationController
-  def new
-    @song = Song.new
-  end
+# frozen_string_literal: true
 
+class SongsController < ApplicationController
   def create
     @song = Song.create(song_params)
+    @song.update(event_log: [{ event: 'enqueued', time: Time.now }])
     DownloadJob.perform_later(@song)
     redirect_to song_path(@song)
   end
@@ -22,6 +21,9 @@ class SongsController < ApplicationController
   private
 
   def song_params
-    params.require(:song).permit(:source_url)
+    params.require(:song).permit(
+      :source_url,
+      :title
+    )
   end
 end
