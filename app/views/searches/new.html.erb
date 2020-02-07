@@ -7,7 +7,7 @@
   <% if @songs.present? %>
     <% @songs.each do |song| %>
       <p>
-        <%= song.title.html_safe %>
+        <%= song.title %>
         <%= form_for song do |f| %>
           <%= f.hidden_field :title %>
           <%= f.hidden_field :source_url %>

@@ -1,12 +1,27 @@
-<% if @song.error.present? %>
-  <p>There was an error</p>
-  <p><%= @song.error %></p>
+<h1><%= @song.title %></h1>
+<% if @song.audio.present? %>
+  <audio controls>
+    <source src="<%= song_listen_path(@song) %>" type="audio/ogg">
+    Sorry - your browser does not support the audio element.
+  </audio>
+  <% if @song.lyrics.present? %>
+    <%= render partial: 'lyrics', locals: { lyrics: @song.lyrics } %>
+  <% else %>
+    <p>No lyrics, sorry</p>
+  <% end %>
 <% else %>
   <p>loading... (this takes a minute, refresh the page in a bit)</p>
   <p>Events:</p>
   <ul>
     <% @song.event_log.each do |event| %>
-      <%= event['time'] %> - <%= event['event'] %>
+      <li><%= event['time'] %> - <%= event['event'] %></li>
     <% end %>
   </ul>
+  <% if @song.error.present? %>
+    <p>Error:</p>
+    <p><%= @song.error %></p>
+  <% end %>
+  <% if @song.lyrics.present? %>
+    <%= render partial: 'lyrics', locals: { lyrics: @song.lyrics } %>
+  <% end %>
 <% end %>

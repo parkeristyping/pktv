@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_07_182348) do
+ActiveRecord::Schema.define(version: 2020_02_07_214121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2020_02_07_182348) do
     t.text "title"
     t.text "error"
     t.jsonb "event_log", default: []
+    t.text "lyrics_url"
+    t.text "lyrics"
   end
 
 end

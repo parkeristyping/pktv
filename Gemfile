@@ -25,7 +25,10 @@ gem 'sidekiq'
 
 gem 'dotenv-rails'
 gem 'foreman'
+gem 'genius'
 gem 'google-api-client'
+gem 'mechanize'
+gem 'nokogiri'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

@@ -11,7 +11,7 @@ class SearchesController < ApplicationController
       yt.key = ENV['GOOGLE_API_KEY']
       @results = yt.list_searches('snippet', q: @search).items
       @songs = @results.map do |result|
-        Song.new(source_url: "https://youtube.com/watch?v=#{result.id.video_id}", title: result.snippet.title)
+        Song.new(source_url: "https://youtube.com/watch?v=#{result.id.video_id}", title: CGI.unescapeHTML(result.snippet.title))
       end
     end
   end
