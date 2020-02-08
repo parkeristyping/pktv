@@ -1,7 +1,7 @@
 <div class="container">
   <h1>PKTV</h1>
   <%= form_with url: searches_path do |f| %>
-    <%= f.text_field :q, class: 'search-input', placeholder: 'Mitski Your Best American Girl' %>
+    <%= f.text_field :q, class: 'search-input', placeholder: "Enter a song, e.g. 'Weezer - Paperface'" %>
     <%= f.submit 'Search', class: 'search-submit' %>
   <% end %>
   <% if @search.present? %>
