@@ -1,7 +1,7 @@
 <h1><%= @song.title %></h1>
 <% if @song.audio.present? %>
   <audio controls>
-    <source src="<%= song_listen_path(@song) %>" type="audio/ogg">
+    <source src="<%= song_listen_path(@song) %>">
     Sorry - your browser does not support the audio element.
   </audio>
   <% if @song.lyrics.present? %>
