@@ -3,7 +3,7 @@
 class SongsController < ApplicationController
   def create
     @song = Song.create(song_params)
-    @song.update(event_log: [{ event: 'enqueued', time: Time.now }])
+    @song.update(event_log: [{ event: 'booting up the karaoke machine', time: Time.now }])
     ProcessJob.perform_later(@song)
     CleanupJob.perform_later
     redirect_to song_path(@song)

@@ -1,21 +1,24 @@
-<%= form_with url: searches_path do |f| %>
-  <%= f.text_field :q %>
-  <%= f.submit 'Search' %>
-<% end %>
-<% if @search.present? %>
-  <h2>Results for: <%= @search %></h2>
-  <% if @songs.present? %>
-    <% @songs.each do |song| %>
-      <p>
-        <%= song.title %>
-        <%= form_for song do |f| %>
-          <%= f.hidden_field :title %>
-          <%= f.hidden_field :source_url %>
-          <%= f.submit 'Select' %>
-        <% end %>
-      </p>
-    <% end %>
-  <% else %>
-    <p>No results :-/</p>
+<div class="container">
+  <h1>PKTV</h1>
+  <%= form_with url: searches_path do |f| %>
+    <%= f.text_field :q, class: 'search-input' %>
+    <%= f.submit 'Search', class: 'search-submit' %>
   <% end %>
-<% end %>
+  <% if @search.present? %>
+    <h2>Results for: <%= @search %></h2>
+    <% if @songs.present? %>
+      <% @songs.each do |song| %>
+        <p>
+          <%= song.title %>
+          <%= form_for song do |f| %>
+            <%= f.hidden_field :title %>
+            <%= f.hidden_field :source_url %>
+            <%= f.submit 'Select' %>
+          <% end %>
+        </p>
+      <% end %>
+    <% else %>
+      <p>No results :-/</p>
+    <% end %>
+  <% end %>
+</div>

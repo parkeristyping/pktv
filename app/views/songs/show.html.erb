@@ -1,33 +1,34 @@
-<h1><%= @song.title %></h1>
-<% if @song.audio.present? %>
-  <audio controls>
-    <source src="<%= song_listen_path(@song) %>">
-    Sorry - your browser does not support the audio element.
-  </audio>
-  <% if @song.lyrics.present? %>
-    <%= render partial: 'lyrics', locals: { lyrics: @song.lyrics } %>
-  <% else %>
-    <p>No lyrics, sorry</p>
-  <% end %>
-<% else %>
-  <p>loading...</p>
-  <p>Events:</p>
-  <ul>
-    <% @song.event_log.each do |event| %>
-      <li><%= event['time'] %> - <%= event['event'] %></li>
+<div class="container">
+  <h2><%= @song.title %></h2>
+  <% if @song.audio.present? %>
+    <audio controls>
+      <source src="<%= song_listen_path(@song) %>">
+      Sorry - your browser does not support the audio element.
+    </audio>
+    <% if @song.lyrics.present? %>
+      <%= render partial: 'lyrics', locals: { lyrics: @song.lyrics } %>
+    <% else %>
+      <p>No lyrics, sorry</p>
     <% end %>
-  </ul>
-  <% if @song.error.present? %>
-    <p>Error:</p>
-    <p><%= @song.error %></p>
   <% else %>
-    <script>
-     setTimeout(function() {
-       location.reload();
-     }, 5000);
-    </script>
+    <p>We're working on it</p>
+    <ul>
+      <% @song.event_log.each do |event| %>
+        <li><%= event['event'] %></li>
+      <% end %>
+    </ul>
+    <% if @song.error.present? %>
+      <p>Error:</p>
+      <p><%= @song.error %></p>
+    <% else %>
+      <script>
+       setTimeout(function() {
+         location.reload();
+       }, 5000);
+      </script>
+    <% end %>
+    <% if @song.lyrics.present? %>
+      <%= render partial: 'lyrics', locals: { lyrics: @song.lyrics } %>
+    <% end %>
   <% end %>
-  <% if @song.lyrics.present? %>
-    <%= render partial: 'lyrics', locals: { lyrics: @song.lyrics } %>
-  <% end %>
-<% end %>
+</div>
