@@ -5,6 +5,7 @@ class SongsController < ApplicationController
     @song = Song.create(song_params)
     @song.update(event_log: [{ event: 'enqueued', time: Time.now }])
     ProcessJob.perform_later(@song)
+    CleanupJob.perform_later
     redirect_to song_path(@song)
   end
 
