@@ -10,7 +10,7 @@
     <p>No lyrics, sorry</p>
   <% end %>
 <% else %>
-  <p>loading... (this takes a minute, refresh the page in a bit)</p>
+  <p>loading...</p>
   <p>Events:</p>
   <ul>
     <% @song.event_log.each do |event| %>
@@ -20,6 +20,12 @@
   <% if @song.error.present? %>
     <p>Error:</p>
     <p><%= @song.error %></p>
+  <% else %>
+    <script>
+     setTimeout(function() {
+       location.reload();
+     }, 5000);
+    </script>
   <% end %>
   <% if @song.lyrics.present? %>
     <%= render partial: 'lyrics', locals: { lyrics: @song.lyrics } %>

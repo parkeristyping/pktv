@@ -26,6 +26,7 @@ class ProcessJob < ApplicationJob
     id = SecureRandom.uuid
     `youtube-dl -x --audio-format mp3 -o '#{Rails.root}/tmp/#{id}.mp3' #{song.source_url}`
     log(song, 'song downloaded')
+    log(song, 'removing vocals (hang on, this takes a minute)')
 
     # Process the song with Spleeter
     `spleeter separate -i #{Rails.root}/tmp/#{id}.mp3 -p spleeter:2stems -o #{Rails.root}/tmp`
