@@ -81,5 +81,3 @@ test:
 production:
   <<: *default
   database: pktv_production
-  username: pktv
-  password: <%= ENV['PKTV_DATABASE_PASSWORD'] %>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CleanupJob < ApplicationJob
-  def perform(_song)
+  def perform
     # Find songs more than 5 minutes old
     Song.where("created_at < now() - interval '5 minutes'").destroy_all
 
