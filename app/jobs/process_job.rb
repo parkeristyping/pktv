@@ -4,7 +4,11 @@ class ProcessJob < ApplicationJob
   def perform(song)
     log(song, 'getting lyrics')
     genius_song = Genius::Song.search(
-      song.title.downcase.gsub(/[\[\-\]]/, '').gsub('lyrics', '')
+      song.title.downcase
+        .gsub(/[\(\)\[\-\]]/, '')
+        .gsub('lyrics', '')
+        .gsub('official', '')
+        .gsub('video', '')
     ).first
 
     if genius_song.present?
