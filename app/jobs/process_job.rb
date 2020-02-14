@@ -7,8 +7,11 @@ class ProcessJob < ApplicationJob
       song.title.downcase
         .gsub(/[\(\)\[\-\]]/, '')
         .gsub('lyrics', '')
+        .gsub('official music video', '')
+        .gsub('official video', '')
         .gsub('official', '')
-        .gsub('video', '')
+        .gsub('hq video', '')
+        .gsub('hq audio', '')
     ).first
 
     if genius_song.present?
